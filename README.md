@@ -16,5 +16,5 @@ If you use the 802.11ad simulator only, please, cite:
     month   = {Oct}
     }
 
-If you also use measured indoor channel characteristics at 60GHz, please, cite:
+If you also use the measured indoor channel characteristics at 60GHz, please, cite:
 
