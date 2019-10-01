@@ -8,7 +8,7 @@ T1:
 If you use the 802.11ad simulator only, please, cite:
 
     @INPROCEEDINGS{BlumensteinNorCAS2019,
-    author  = {Blumenstein, Jiří and Miloš, Jiří and Polák, Ladislav and Mecklenbräuker, Christoph},
+    author  = {Blumenstein, J. and Miloš, J. and Polák, L. and Mecklenbräuker, Ch.},
     title   = {{IEEE} 802.11ad {SC}-{PHY} {Layer} {Simulator}: {Performance} in {Real}-world 60 {GHz} {Indoor} {Channels}},
     year    = {2019},
     publisher = {IEEE},
