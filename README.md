@@ -32,8 +32,7 @@ or
 
 > R. Marsalek, J. Blumenstein, M. Pospisil and M. Rupp, "Measured Capacity of mm-Wave Radio Link Under IQ Imbalance," 2018 IEEE 29th Annual International Symposium on Personal, Indoor and Mobile Radio Communications (PIMRC), Bologna, 2018, pp. 1124-1125. doi: 10.1109/PIMRC.2018.8580834 URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=8580834&isnumber=8580668
 
-### Note: 
-An accurate channel estimation is crucial for signal reception in wideband communication systems. For this purpose, IEEE 802.11ad emloys a Channel Estimation Field (CEF) in each packet, composed from Golay sequences of length 128 samples (Ga128, Gb128). At the receiving side (RX), the channel characteristics is estimated using a correlation computation.
+An accurate channel estimation is crucial for signal reception in wideband communication systems. For this purpose, IEEE 802.11ad employs a Channel Estimation Field (CEF) in each packet, composed from Golay sequences of length 128 samples (Ga128, Gb128). At the receiving side (RX), the channel characteristics is estimated using a correlation computation.
 
 
 ## Please Cite Our Paper
