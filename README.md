@@ -3,7 +3,7 @@ This repository contains the MATLAB model of the IEEE802.11ad physical layer mod
 
 All m- or mex- files are made entirely by authors, excepting the Soft-sphere decoder implementation which was originally developed at Vienna Univeristy of Technology within the LTE Link Level Simulator, see paper:
 
-*C. Mehlf{\"u}hrer, J. Colom Ikuno, M. Simko, S. Schwarz, M. Wrulich and M. Rupp, "The Vienna LTE Simulators - Enabling Reproducibility in Wireless Communications Research," in EURASIP Journal on Advances in Signal Processing, Vol. 2011, pp. 1-13, 2011. doi: 10.1186/1687-6180-2011-29 URL: http://publik.tuwien.ac.at/files/PubDat_199104.pdf*
+> C. Mehlführer, J. Colom Ikuno, M. Simko, S. Schwarz, M. Wrulich and M. Rupp, "The Vienna LTE Simulators - Enabling Reproducibility in Wireless Communications Research," in EURASIP Journal on Advances in Signal Processing, Vol. 2011, pp. 1-13, 2011. doi: 10.1186/1687-6180-2011-29 URL: http://publik.tuwien.ac.at/files/PubDat_199104.pdf
     
 ## Short description
 Main blocks of the transmitting (TX) part are the follows:
@@ -26,11 +26,11 @@ It allows either AWGN only simulation (**'awgn'**), fading channel model simulat
 
 *The **'fad_meas'** option uses a measured dataset from the indoor measurement campaign held in Brno University of Technology. We provide both channel impulse responses and channel transfer functions of a time invariant indoor channel with a 10 GHz bandwidth spanning the frequencies from 55 GHz to 65 GHz. The data are in .mat format and is easily utilizable in MATLAB. This could serve as a database oriented channel model, from which an individual channel realizations are loaded and utilized e.g. in an algorithm simulation. The data are free to use, however if leading to a scientific publication, please cite our work, which led to acquiring this dataset. The relevant publications are:* 
 
-*P. Liu, J. Blumenstein, N. S. Perović, M. Di Renzo and A. Springer, "Performance of Generalized Spatial Modulation MIMO Over Measured 60GHz Indoor Channels," in IEEE Transactions on Communications, vol. 66, no. 1, pp. 133-148, Jan. 2018. doi: 10.1109/TCOMM.2017.2754280 URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=8046024&isnumber=8258580*
+> P. Liu, J. Blumenstein, N. S. Perović, M. Di Renzo and A. Springer, "Performance of Generalized Spatial Modulation MIMO Over Measured 60GHz Indoor Channels," in IEEE Transactions on Communications, vol. 66, no. 1, pp. 133-148, Jan. 2018. doi: 10.1109/TCOMM.2017.2754280 URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=8046024&isnumber=8258580
 
 or
 
-*R. Marsalek, J. Blumenstein, M. Pospisil and M. Rupp, "Measured Capacity of mm-Wave Radio Link Under IQ Imbalance," 2018 IEEE 29th Annual International Symposium on Personal, Indoor and Mobile Radio Communications (PIMRC), Bologna, 2018, pp. 1124-1125. doi: 10.1109/PIMRC.2018.8580834 URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=8580834&isnumber=8580668*
+> R. Marsalek, J. Blumenstein, M. Pospisil and M. Rupp, "Measured Capacity of mm-Wave Radio Link Under IQ Imbalance," 2018 IEEE 29th Annual International Symposium on Personal, Indoor and Mobile Radio Communications (PIMRC), Bologna, 2018, pp. 1124-1125. doi: 10.1109/PIMRC.2018.8580834 URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=8580834&isnumber=8580668
 
 ### Note: 
 An accurate channel estimation is crucial for signal reception in wideband communication systems. For this purpose, IEEE 802.11ad emloys a Channel Estimation Field (CEF) in each packet, composed from Golay sequences of length 128 samples (Ga128, Gb128). At the receiving side (RX), the channel characteristics is estimated using a correlation computation.
