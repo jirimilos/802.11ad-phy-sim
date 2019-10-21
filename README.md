@@ -1,5 +1,5 @@
 # 802.11ad-phy-sim
-This repository contains the MATLAB model of the IEEE802.11ad physical layer model in baseband. It only supports the Single Carrier Physical layer HY (SC PHY). The model is created in MATLAB 2017b with using the Control System Toolbox, Signal Processing Toolbox, DSP System Toolbox and Communications System Toolbox. Mentioned MATLAB toolboxes are necessary to run this model.
+This repository contains the MATLAB model of the IEEE802.11ad physical layer model in baseband. It only supports the Single Carrier Physical layer HY (SC PHY). The model is created in MATLAB 2017b using the Control System Toolbox, Signal Processing Toolbox, DSP System Toolbox and Communications System Toolbox. Mentioned MATLAB toolboxes are necessary to run this simulator.
 
 All m- or mex- files are made entirely by authors, excepting the Soft-sphere decoder implementation which was originally developed at Vienna Univeristy of Technology within the LTE Link Level Simulator, see paper:
 
