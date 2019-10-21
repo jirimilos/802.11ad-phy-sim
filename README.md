@@ -18,7 +18,7 @@ Main blocks of the transmitting (TX) part are the follows:
 #### Data
 Generation of a random bit streams (bits)
 #### Scrambler
-Used to break up long sequences of ones and zeros. It is defined by generator polynomial: ![none](https://raw.githubusercontent.com/jirimilos/802.11ad-phy-sim/master/Tex2Img_1571646935.png).
+Used to break up long sequences of ones and zeros. It is defined by generator polynomial: ![](https://user-images.githubusercontent.com/55983849/67189872-4dd44100-f3ef-11e9-81b8-0ccb541a7f4e.png).
 #### LDPC Encoder
 Forward error correction (FEC) scheme for SC PHY can use 5 code rates: 1/2, 5/8, 3/4, 13/16 and 7/8.
 #### Bit Interleaver
