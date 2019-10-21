@@ -24,11 +24,11 @@ Forward error correction (FEC) scheme for SC PHY can use 5 code rates: 1/2, 5/8,
 #### Bit Interleaver
 Interleaving of the encoded message (on a bit level).
 #### Modulation
-pi/2-shifted BPSK, QPSK, 16QAM and 64QAM constellations.
+![](https://user-images.githubusercontent.com/55983849/67190065-955acd00-f3ef-11e9-8b52-6e7455de55ab.png)-shifted BPSK, QPSK, 16QAM and 64QAM constellations.
 #### Symbol Blocking
 The data are transmitted block-wise at 448 symbols per block.
 #### Guard Interval (GI)
-Another 64 symbols are inserted between the individual blocks. The GI consists of a Golay sequence, marked as Ga64, modulated with pi/2-BPSK. Finally, the complete IEEE 802.11ad frame is created.
+Another 64 symbols are inserted between the individual blocks. The GI consists of a Golay sequence, marked as Ga64, modulated with ![](https://user-images.githubusercontent.com/55983849/67190065-955acd00-f3ef-11e9-8b52-6e7455de55ab.png)-BPSK. Finally, the complete IEEE 802.11ad frame is created.
 #### Channel
 It allows either AWGN only simulation, fading channel model simulation using user-defined values or fading channel simulation using a measured indoor 60 GHz channel model (see the paper mentioned below).
 
