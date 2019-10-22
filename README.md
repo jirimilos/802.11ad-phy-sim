@@ -5,24 +5,24 @@ All m- or mex- files are made entirely by authors, excepting the Soft-sphere dec
 
 > C. Mehlführer, J. Colom Ikuno, M. Simko, S. Schwarz, M. Wrulich and M. Rupp, "The Vienna LTE Simulators - Enabling Reproducibility in Wireless Communications Research," in EURASIP Journal on Advances in Signal Processing, Vol. 2011, pp. 1-13, 2011. doi: 10.1186/1687-6180-2011-29 URL: http://publik.tuwien.ac.at/files/PubDat_199104.pdf
     
-## Short description
+## Short Description
 Main blocks of the transmitting (TX) part are the follows:
-#### Data
-Generation of a random bit streams (bits)
-#### Scrambler
-Used to break up long sequences of ones and zeros. It is defined by generator polynomial: ![](https://user-images.githubusercontent.com/55983849/67189872-4dd44100-f3ef-11e9-81b8-0ccb541a7f4e.png).
-#### LDPC Encoder
-Forward error correction (FEC) scheme for SC PHY can use 5 code rates: 1/2, 5/8, 3/4, 13/16 and 7/8.
-#### Bit Interleaver
-Interleaving of the encoded message (on a bit level).
-#### Modulation
-![](https://user-images.githubusercontent.com/55983849/67190065-955acd00-f3ef-11e9-8b52-6e7455de55ab.png)-shifted BPSK, QPSK, 16QAM and 64QAM constellations.
-#### Symbol Blocking
-The data are transmitted block-wise at 448 symbols per block.
-#### Guard Interval (GI)
-Another 64 symbols are inserted between the individual blocks. The GI consists of a Golay sequence, marked as Ga64, modulated with ![](https://user-images.githubusercontent.com/55983849/67190065-955acd00-f3ef-11e9-8b52-6e7455de55ab.png)-BPSK. Finally, the complete IEEE 802.11ad frame is created.
-#### Channel
-It allows either AWGN only simulation (**'awgn'**), fading channel model simulation using user-defined values (**'fad'**) or fading channel simulation using a measured indoor 60 GHz channel model (**'fad_meas'**).
+
+***Data*** Generation of a random bit streams (bits)
+
+***Scrambler*** Used to break up long sequences of ones and zeros. It is defined by generator polynomial: ![](https://user-images.githubusercontent.com/55983849/67189872-4dd44100-f3ef-11e9-81b8-0ccb541a7f4e.png).
+
+***LDPC Encoder*** Forward error correction (FEC) scheme for SC PHY can use 5 code rates: 1/2, 5/8, 3/4, 13/16 and 7/8.
+
+***Bit Interleaver*** Interleaving of the encoded message (on a bit level).
+
+***Modulation*** ![](https://user-images.githubusercontent.com/55983849/67190065-955acd00-f3ef-11e9-8b52-6e7455de55ab.png)-shifted BPSK, QPSK, 16QAM and 64QAM constellations.
+
+***Symbol Blocking*** The data are transmitted block-wise at 448 symbols per block.
+
+***Guard Interval (GI)*** Another 64 symbols are inserted between the individual blocks. The GI consists of a Golay sequence, marked as Ga64, modulated with ![](https://user-images.githubusercontent.com/55983849/67190065-955acd00-f3ef-11e9-8b52-6e7455de55ab.png)-BPSK. Finally, the complete IEEE 802.11ad frame is created.
+
+***Channel*** It allows either AWGN only simulation (**'awgn'**), fading channel model simulation using user-defined values (**'fad'**) or fading channel simulation using a measured indoor 60 GHz channel model (**'fad_meas'**).
 
 *The **'fad_meas'** option uses a measured dataset from the indoor measurement campaign held in Brno University of Technology. We provide both channel impulse responses and channel transfer functions of a time invariant indoor channel with a 10 GHz bandwidth spanning the frequencies from 55 GHz to 65 GHz. The data are in .mat format and is easily utilizable in MATLAB. This could serve as a database oriented channel model, from which an individual channel realizations are loaded and utilized e.g. in an algorithm simulation. The data are free to use, however if leading to a scientific publication, please cite our work, which led to acquiring this dataset. The relevant publications are:* 
 
@@ -35,7 +35,7 @@ or
 An accurate channel estimation is crucial for signal reception in wideband communication systems. For this purpose, IEEE 802.11ad employs a Channel Estimation Field (CEF) in each packet, composed from Golay sequences of length 128 samples (Ga128, Gb128). At the receiving side (RX), the channel characteristics is estimated using a correlation computation.
 
 
-## Please Cite Our Paper
+## Please Cite our Paper
 If you use the 802.11ad simulator or measured indoor channel characteristics at 60 GHz, please, cite:
 
     @INPROCEEDINGS{BlumensteinNorCAS2019,
