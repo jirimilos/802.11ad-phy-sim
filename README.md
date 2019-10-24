@@ -20,14 +20,12 @@ Main blocks of the transmitting (TX) part are the follows:
 
 ***Guard Interval (GI)*** Another 64 symbols are inserted between the individual blocks. The GI consists of a Golay sequence, marked as Ga64, modulated with ![](https://user-images.githubusercontent.com/55983849/67190065-955acd00-f3ef-11e9-8b52-6e7455de55ab.png)-BPSK. Finally, the complete IEEE 802.11ad frame is created.
 
-***Channel***
-
-Block *Channel* allows for user to select between the following channel models:
+***Channel*** Block *Channel* allows for user to select between the following channel models:
 - AWGN channel model (**'awgn'**),
 - fading channel model using user-defined values (**'fad'**),
 - a measured indoor 60 GHz fading channel model (**'fad_meas'**).
 
-*The **'fad_meas'** option uses a measured dataset from the indoor measurement campaign held in Brno University of Technology. We provide both channel impulse responses and channel transfer functions of a time invariant indoor channel with a 10 GHz bandwidth spanning the frequencies from 55 GHz to 65 GHz. The data are in .mat format and is easily utilizable in MATLAB. This could serve as a database oriented channel model, from which an individual channel realizations are loaded and utilized e.g. in an algorithm simulation. The data are free to use, however if leading to a scientific publication, please cite our work, which led to acquiring this dataset. The relevant publications are:* 
+*The *'fad_meas'* option uses a measured dataset from the indoor measurement campaign held in Brno University of Technology. We provide both channel impulse responses and channel transfer functions of a time invariant indoor channel with a 10 GHz bandwidth spanning the frequencies from 55 GHz to 65 GHz. The data are in .mat format and is easily utilizable in MATLAB. This could serve as a database oriented channel model, from which an individual channel realizations are loaded and utilized e.g. in an algorithm simulation. The data are free to use, however if leading to a scientific publication, please cite our work, which led to acquiring this dataset. The relevant publications are:* 
 
 > P. Liu, J. Blumenstein, N. S. Perović, M. Di Renzo and A. Springer, "Performance of Generalized Spatial Modulation MIMO Over Measured 60GHz Indoor Channels," in IEEE Transactions on Communications, vol. 66, no. 1, pp. 133-148, Jan. 2018. doi: 10.1109/TCOMM.2017.2754280 URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=8046024&isnumber=8258580
 
@@ -35,8 +33,7 @@ or
 
 > R. Marsalek, J. Blumenstein, M. Pospisil and M. Rupp, "Measured Capacity of mm-Wave Radio Link Under IQ Imbalance," 2018 IEEE 29th Annual International Symposium on Personal, Indoor and Mobile Radio Communications (PIMRC), Bologna, 2018, pp. 1124-1125. doi: 10.1109/PIMRC.2018.8580834 URL: http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=8580834&isnumber=8580668
 
-*Note*
-An accurate channel estimation is crucial for signal reception in wideband communication systems. For this purpose, IEEE 802.11ad employs a Channel Estimation Field (CEF) in each packet, composed from Golay sequences of length 128 samples (Ga128, Gb128). At the receiving side (RX), the channel characteristics is estimated using a correlation computation.
+*Note:* An accurate channel estimation is crucial for signal reception in wideband communication systems. For this purpose, IEEE 802.11ad employs a Channel Estimation Field (CEF) in each packet, composed from Golay sequences of length 128 samples (Ga128, Gb128). At the receiving side (RX), the channel characteristics is estimated using a correlation computation.
 
 
 ## Please Cite our Paper
