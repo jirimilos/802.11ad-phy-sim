@@ -34,13 +34,22 @@ Main blocks of the transmitting (TX) part are the follows:
 ## Instructions for use
 
 ### IEEE 802.11ad PHY simulator
-The basic simulation is started by the file sim_batch.m. The parameters that can be set are as follows:
+The basic simulation is started by the file *'wifi_AD_sim_batch.m'*. The parameters that can be set are as follows:
+- **'decision_type'** - either *'LLR'* (Log-likelihood ratio) or *'HD'* (Hard decision),
+- **'LENGTH'** - user data octet length (within the range from 1 to 262144),
+- **'MCSvec'** - the MCS value(s) to simulate MCSvec, either *'all'* (corresponding to MCS defined for SC-PHY) or individual MCS value(s),
+- **'channelType'** - *'awgn'*, *'fad'* or *'fad_meas'*,
+- **'SNR'** - simualated SNR values (in dB) in channel model, within the outer loop,
+- **'N_frames'** - number of simulated frames within the inner loop (for each SNR value),
 
-The results are stored in the '\results' folder as a .mat file. Each simulated MCS has its own .mat file. For the results graphical presentation you can use the file: 'show_results.m'. 
+The results are stored in the *'\results'* folder as a .mat file. Each simulated MCS has its own .mat file. For the results graphical presentation you can use the file: *'\results\present_results_wifi_AD.m'*. 
 
 
 ### Measured indoor 60 GHz fading channel model only
-To use and present the measured dataset from the indoor measurement campaign held in Brno University of Technology (BUT) at the Department of Radio Electronics (DREL) employs the file show_meas_data.m stored in the folder '\measured_chanels':. You will receive several characteristics of the transmission channels in time (CIR) and frequency domain (CTF), see the article on this issue mentioned above.
+To use and present the measured dataset from the indoor measurement campaign held in Brno University of Technology (BUT) at the Department of Radio Electronics (DREL) employs the file show_meas_data.m stored in the folder '\measured_chanels':. You will receive several characteristics of the transmission channels in time and frequency domain, see the article on this issue mentioned above.
+
+![Examples of time- and frequency-domain channel traces](https://user-images.githubusercontent.com/55983849/67467406-f7623f00-f648-11e9-8acd-8eacbe66e315.png)
+
 
 ## Please cite our paper
 If you use the 802.11ad simulator, please, cite:
