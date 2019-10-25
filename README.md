@@ -64,3 +64,5 @@ If you use the 802.11ad simulator, please, cite:
     pages   = {1--4},
     month   = {Oct}
     }
+
+## About authors
