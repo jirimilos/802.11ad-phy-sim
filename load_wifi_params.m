@@ -41,185 +41,14 @@ if (wifi_params.general.sendAllZeros || wifi_params.general.sendAllOnes) == 1
 end
 %% Colission detection:
 switch wifi_standard
-    case '802dot11g'
-        
-    case '802dot11n'
-        
-    case '802dot11ac'
-        
-    case '802dot11ax'
-        
-    case '802dot11ah'
-        maxLENGHT_AH_tmp = 511;
-        if LENGTH > maxLENGHT_AH_tmp
-            error('Maximum LENGTH value is 511 octets, see IEEE Std 802.11ah-2016, Tab 23-37');
-        end
     case '802dot11ad'
-        
+        addpath('.\measured_channels');
+    otherwise
+        error('Unsupported type of IEEE 802.11 standard');
 end
 
 %% PHY layer - timing-related constants
 switch wifi_standard
-    case '802dot11g'
-        wifi_params.mapping.bandwidth = 20e6;
-        wifi_params.mapping.n_fft = 64;
-        wifi_params.mapping.n_data = 48;
-        wifi_params.mapping.n_pilot = 4;
-        wifi_params.mapping.ir_highest_subc = 26;
-        wifi_params.mapping.i_data = [1:5, 7:19, 21:26, 28:33, 35:47, 49:53];
-        wifi_params.mapping.i_DC = 27;
-        wifi_params.mapping.i_pilots = [6 20 34 48];
-        wifi_params.mapping.ir_phase_rotated_subc = [];
-        wifi_params.mapping.phase_rotation_factor = 1; % 0°
-    case '802dot11n'
-        switch ChannelBandwidth
-            case 20
-                wifi_params.mapping.bandwidth = 20e6;
-                wifi_params.mapping.n_fft = 64;
-                wifi_params.mapping.n_data = 52;
-                wifi_params.mapping.n_pilot = 4;
-                wifi_params.mapping.ir_highest_subc = 28;
-                wifi_params.mapping.i_data = [1:7, 9:21, 23:28, 30:35, 37:49, 51:57];
-                wifi_params.mapping.i_DC = 29;
-                wifi_params.mapping.i_pilots = [8 22 36 50];
-                wifi_params.mapping.ir_phase_rotated_subc = [];
-                wifi_params.mapping.phase_rotation_factor = 1; % 0°
-            case 40
-                wifi_params.mapping.bandwidth = 40e6;
-                wifi_params.mapping.n_fft = 128;
-                wifi_params.mapping.n_data = 108;
-                wifi_params.mapping.n_pilot = 6;
-                wifi_params.mapping.ir_highest_subc = 58;
-                wifi_params.mapping.i_data = [1:5, 7:33, 35:47, 49:57, 61:69, 71:83, 85:111, 113:117];
-                wifi_params.mapping.i_DC = 58:60; % zero DC carrier including two isolating zero carriers
-                wifi_params.mapping.i_pilots = [6 34 48 70 84 112];
-                wifi_params.mapping.ir_phase_rotated_subc = 0:wifi_params.mapping.ir_highest_subc; % >= 0
-                wifi_params.mapping.phase_rotation_factor = 1j; % 90°
-            otherwise
-                error('Wrong Wi-Fi timing-related constants');
-        end
-    case '802dot11ac'
-        switch ChannelBandwidth
-            case 20
-                wifi_params.mapping.bandwidth = 20e6;
-                wifi_params.mapping.n_fft = 64;
-                wifi_params.mapping.n_data = 52;
-                wifi_params.mapping.n_pilot = 4;
-                wifi_params.mapping.ir_highest_subc = 28;
-                wifi_params.mapping.i_data = [1:7, 9:21, 23:28, 30:35, 37:49, 51:57];
-                wifi_params.mapping.i_DC = 29;
-                wifi_params.mapping.i_pilots = [8 22 36 50];
-                wifi_params.mapping.ir_phase_rotated_subc = [];
-                wifi_params.mapping.phase_rotation_factor = 1; % 0°
-                wifi_params.mapping.n_segment = 1;
-            case 40
-                wifi_params.mapping.bandwidth = 40e6;
-                wifi_params.mapping.n_fft = 128;
-                wifi_params.mapping.n_data = 108;
-                wifi_params.mapping.n_pilot = 6;
-                wifi_params.mapping.ir_highest_subc = 58;
-                wifi_params.mapping.i_data = [1:5, 7:33, 35:47, 49:57, 61:69, 71:83, 85:111, 113:117];
-                wifi_params.mapping.i_DC = 58:60;
-                wifi_params.mapping.i_pilots = [6 34 48 70 84 112];
-                wifi_params.mapping.ir_phase_rotated_subc = 0:wifi_params.mapping.ir_highest_subc;
-                wifi_params.mapping.phase_rotation_factor = 1j; % 90°
-                wifi_params.mapping.n_segment = 1;
-            case 80
-                warning(['BW ', num2str(ChannelBandwidth),'MHz mode is not implemented correctly yet']);
-                wifi_params.mapping.bandwidth = 80e6;
-                wifi_params.mapping.n_fft = 256;
-                wifi_params.mapping.n_data = 234;
-                wifi_params.mapping.n_pilot = 8;
-                wifi_params.mapping.ir_highest_subc = 122;
-                wifi_params.mapping.i_data = [1:7, 9:21, 23:28, 30:35, 37:49, 51:57];
-                wifi_params.mapping.i_DC = 29;
-                wifi_params.mapping.i_pilots = [8 22 36 50];
-                wifi_params.mapping.ir_phase_rotated_subc = -64:wifi_params.mapping.ir_highest_subc;
-                wifi_params.mapping.phase_rotation_factor = -1; % 0°
-                wifi_params.mapping.n_segment = 1;
-            case [80 80]
-                warning(['BW ', num2str(ChannelBandwidth),'MHz mode is not implemented correctly yet']);
-                wifi_params.mapping.bandwidth = 80e6;
-                wifi_params.mapping.n_fft = 256;
-                wifi_params.mapping.n_data = 234;
-                wifi_params.mapping.n_pilot = 8;
-                wifi_params.mapping.ir_highest_subc = 122;
-                wifi_params.mapping.i_data = [1:7, 9:21, 23:28, 30:35, 37:49, 51:57];
-                wifi_params.mapping.i_DC = 29;
-                wifi_params.mapping.i_pilots = [8 22 36 50];
-                wifi_params.mapping.ir_phase_rotated_subc = -64:wifi_params.mapping.ir_highest_subc;
-                wifi_params.mapping.phase_rotation_factor = -1; % 0°
-                wifi_params.mapping.n_segment = 2;
-            case 160
-                warning(['BW ', num2str(ChannelBandwidth),'MHz mode is not implemented correctly yet']);
-                wifi_params.mapping.bandwidth = 160e6;
-                wifi_params.mapping.n_fft = 512;
-                wifi_params.mapping.n_data = 468;
-                wifi_params.mapping.n_pilot = 16;
-                wifi_params.mapping.ir_highest_subc = 250;
-                wifi_params.mapping.i_data = [1:7, 9:21, 23:28, 30:35, 37:49, 51:57];
-                wifi_params.mapping.i_DC = 29;
-                wifi_params.mapping.i_pilots = [8 22 36 50];
-                wifi_params.mapping.ir_phase_rotated_subc = [-192:-1, 64:wifi_params.mapping.ir_highest_subc];
-                wifi_params.mapping.phase_rotation_factor = -1; % 0°
-                wifi_params.mapping.n_segment = 1;
-            otherwise
-                error('Wrong Wi-Fi timing-related constants');
-        end
-        
-    case '802dot11af'
-        
-    case '802dot11ah'
-        switch ChannelBandwidth
-            case 1 % S1G non-AP STA or AP STA
-                wifi_params.mapping.bandwidth = 1e6;
-                wifi_params.mapping.n_fft = 32;
-                wifi_params.mapping.n_data = 24;
-                wifi_params.mapping.n_pilot = 2;
-                wifi_params.mapping.ir_highest_subc = 13;
-                wifi_params.mapping.i_data = [1:6, 8:13, 15:20, 22:27];
-                wifi_params.mapping.i_DC = 14;
-                wifi_params.mapping.i_pilots = [7 21];
-                wifi_params.mapping.ir_phase_rotated_subc = [];
-                wifi_params.mapping.phase_rotation_factor = 1; % 0°
-            case 2 % S1G non-AP STA or AP STA
-                wifi_params.mapping.bandwidth = 2e6;
-                wifi_params.mapping.n_fft = 64;
-                wifi_params.mapping.n_data = 52;
-                wifi_params.mapping.n_pilot = 4;
-                wifi_params.mapping.ir_highest_subc = 28;
-                wifi_params.mapping.i_data = [1:7, 9:21, 23:28, 30:35, 37:49, 51:57];
-                wifi_params.mapping.i_DC = 29;
-                wifi_params.mapping.i_pilots = [8 22 36 50];
-                wifi_params.mapping.ir_phase_rotated_subc = [];
-                wifi_params.mapping.phase_rotation_factor = 1; % 0°
-            case 4
-                error('S1G STA not defined yet');
-            case 8
-                error('S1G STA not defined yet');
-            case 16
-                error('S1G STA not defined yet');
-            otherwise
-                error('Wrong Wi-Fi timing-related constants');
-        end
-    case '802dot11ax'
-        switch ChannelBandwidth
-            case 20
-                wifi_params.mapping.bandwidth = 20e6;
-                wifi_params.mapping.n_fft = 256; % FFT size
-                wifi_params.mapping.n_data = 234;
-                wifi_params.mapping.n_pilot = 8;
-                wifi_params.mapping.ir_highest_subc = 128;
-                wifi_params.mapping.i_data = [1:6, 8:32, 34:74, 76:100, 102:121, 125:144, 146:170, 172:212, 214:238, 240:245];
-                %         wifi_params.mapping.i_separ = [];
-                wifi_params.mapping.i_DC = [122, 123, 124];
-                wifi_params.mapping.i_pilots = [7, 33, 75, 101, 145, 171, 213, 239];
-                wifi_params.mapping.ir_phase_rotated_subc = [];
-                wifi_params.mapping.phase_rotation_factor = 1; % 0°
-                wifi_params.mapping.n_segment = 1;
-            otherwise
-                error('BW > 20 MHz not defined yet');
-        end
     case '802dot11ad'
         wifi_params.mapping.bandwidth = 2640e6;
         wifi_params.mapping.n_fft = 512; % FFT size
@@ -242,7 +71,7 @@ switch wifi_standard
             warning('N_BLKS undefined yet, see 20.6.3.2.3.3 - calculate after LDPC coding definition')
         end
     otherwise
-        error('Unknown type of IEEE 802.11 standard')
+        error('Unsupported type of IEEE 802.11 standard');
 end
 % parameters dependent
 if strcmp(wifi_standard,'802dot11ad')
@@ -254,16 +83,6 @@ else
     wifi_params.mapping.bw_real = wifi_params.mapping.n_tot*wifi_params.mapping.df;
     wifi_params.mapping.ir_all = -wifi_params.mapping.ir_highest_subc:wifi_params.mapping.ir_highest_subc;
 end
-% [wifi_params.mapping.ir_all; wifi_params.mapping.ir_all+wifi_params.mapping.ir_highest_subc+1]
-% disp('wifi_params.mapping.n_tot')
-% wifi_params.mapping.n_tot
-% disp('wifi_params.mapping.df')
-% wifi_params.mapping.df
-% disp('wifi_params.mapping.bw_real')
-% wifi_params.mapping.bw_real
-% disp('wifi_params.mapping.ir_all')
-% wifi_params.mapping.ir_all
-
 
 wifi_params.general.LENGTH = LENGTH;
 switch wifi_standard
@@ -567,24 +386,6 @@ if strcmp(wifi_params.general.standard,'802dot11ad')
 else
     wifi_params.Fs = wifi_params.mapping.n_fft*wifi_params.mapping.df;
 end
-%% MAPPING TEST
-if showMapping
-    % data:
-    mDATA = double(wifi_params.mapping.map_data(:,1));
-    % pilots:
-    mPILOTS = double(wifi_params.mapping.map_pilots(:,1));
-    % DC subc:
-    mDC = double(wifi_params.mapping.map_DC(:,1));
-    % phase rotation:
-    mPR = double(wifi_params.mapping.map_phase_rotation(:,1));
-    
-    ir_all = wifi_params.mapping.ir_all.';
-    
-    table(ir_all,mDATA,mPILOTS,mDC,mPR)
-    
-    figure; image(0:2,ir_all,[mDATA,mPILOTS,mDC,mPR]*100)
-    xlabel(['DATA x PILOTS x DC x PHASE ROTATION *(',num2str(wifi_params.mapping.phase_rotation_factor),')']), ylabel('subcarrier index')
-end
 
 %% GUARD INTERVAL
 switch wifi_standard %=====================================================
@@ -625,7 +426,7 @@ switch wifi_standard %=====================================================
                 error('In IEEE 802.11ah ''normal'' or ''short'' cyclic prefix length (8 us or 4 us) are valid only');
         end
     case '802dot11ad'
-        warning('AD: guard interval: TBD (see load_wifi_params.m, line 542)');
+        %         warning('AD: guard interval: TBD (see load_wifi_params.m, line 542)');
     otherwise
         error('Wrong or undefined standard');
 end
@@ -637,7 +438,7 @@ end
 %% Framing
 
 % disp(mat2str(wifi_params.cprefix.indices))
-disp('TBD: only for AD, see line: 597')
+% disp('TBD: only for AD, see line: 597')
 switch wifi_params.general.PHYlayer
     case 'SC'
         wifi_params.framing.Names = {...

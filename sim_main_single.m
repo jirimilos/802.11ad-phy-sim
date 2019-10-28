@@ -15,7 +15,7 @@ for i_snr = 1:length(SNR) % outer loop - SNR loop
         txObj = WIFI_TX_ad(wifi_params,txObj,i_mcs); % perform transmitter operations
         
         %% Channel model, noise and impairments
-        channelObj = channel(wifi_params,txObj.nTXant,rxObj.nRXant);
+        channelObj = channel(wifi_params, txObj.nTXant, rxObj.nRXant, i_snr);
         %         channelObj = channel_measured_JB(wifi_params,txObj.nTXant,rxObj.nRXant);
         
         x_s_filt = zeros(1, length(txObj.output.x_s)+channelObj.h_length-1);

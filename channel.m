@@ -1,4 +1,4 @@
-function [chanMod] = channel(wifi_params,nTX,nRX)
+function [chanMod] = channel(wifi_params, nTX, nRX, i_snr)
 % Channel function for creating awgn or fading channel matrix
 %
 % Authors:	Jiri Milos, DREL FEEC BUT, 2018
@@ -27,8 +27,8 @@ if strcmp(wifi_params.channel.type,'awgn')
     powerlin = [];
     delay = 0;
     H2 = H;
-	
-	chanMod.H = H; % only block fading
+    
+    chanMod.H = H; % only block fading
     chanMod.h = h;
     chanMod.normh = normalize_factor_h;
     chanMod.h_length = h_length;
@@ -40,15 +40,15 @@ if strcmp(wifi_params.channel.type,'awgn')
     chanMod.genie.PDB_lin = powerlin;
     chanMod.genie.delay = delay;
     chanMod.genie.powlin_for_h_est = abs(h);
-    chanMod.genie.H2 = H2;	
-	
+    chanMod.genie.H2 = H2;
+    
 elseif strcmp(wifi_params.channel.type,'fad') % fading
-           
+    
     powerdB = wifi_params.channel.powerdB;
     powerlin = 10.^(powerdB/10);
     
-	normalize_factor_h = sqrt(sum(10.^powerdB/10));
-
+    normalize_factor_h = sqrt(sum(10.^powerdB/10));
+    
     delayTime = wifi_params.channel.delayTime; % channel delay sample
     delay = unique(round(delayTime*Fs));
     
@@ -56,57 +56,55 @@ elseif strcmp(wifi_params.channel.type,'fad') % fading
     Lch = delay(end)+1;
     
     g_rand = (randn(1,Ntap)+1j*randn(1,Ntap))/sqrt(2);
-
-    h = zeros(1,Lch);    
     
-    for i_tap = 1:length(delay)        
+    h = zeros(1,Lch);
+    
+    for i_tap = 1:length(delay)
         h(1, delay(i_tap)+1) = sqrt(powerlin(i_tap))*g_rand(1, i_tap);
     end
-	
+    
     h = h/normalize_factor_h;
     h_length = length(h);
     
     % for perfect channel knowledge
     H = fft([h, zeros(1, n_fft-h_length-n_gi)]);
-    H2 = fft([h, zeros(1, n_fft-h_length)]); 
-
-	chanMod.H = H; % only block fading
-	chanMod.h = h;
-	chanMod.normh = normalize_factor_h;
-	chanMod.h_length = h_length;
-	chanMod.nTX = nTX;
-	chanMod.nRX = nRX;
-	chanMod.Lch = Lch;
-	chanMod.Ntap = Ntap;
-	chanMod.genie.PDB_dB = powerdB;
-	chanMod.genie.PDB_lin = powerlin;
-	chanMod.genie.delay = delay;
-	chanMod.genie.powlin_for_h_est = abs(h);
-	chanMod.genie.H2 = H2;
-
-	elseif strcmp(wifi_params.channel.type,'fad_meas') % fading - measured channel
-
-    cd measured_channel;
+    H2 = fft([h, zeros(1, n_fft-h_length)]);
     
-    load(['CIR_',num2str(1),'.mat']);
+    chanMod.H = H; % only block fading
+    chanMod.h = h;
+    chanMod.normh = normalize_factor_h;
+    chanMod.h_length = h_length;
+    chanMod.nTX = nTX;
+    chanMod.nRX = nRX;
+    chanMod.Lch = Lch;
+    chanMod.Ntap = Ntap;
+    chanMod.genie.PDB_dB = powerdB;
+    chanMod.genie.PDB_lin = powerlin;
+    chanMod.genie.delay = delay;
+    chanMod.genie.powlin_for_h_est = abs(h);
+    chanMod.genie.H2 = H2;
+    
+elseif strcmp(wifi_params.channel.type,'fad_meas') % fading - measured channel
+    
+    load(['CIR.mat']);
+%     load(['CIR2.mat']);
     velikost=size(CIR_mat);
     
     a=randi(velikost(1));
     b=randi(velikost(2));
-        
-    h = squeeze(CIR_mat(a,b,1:end-1)); % FUNGUJE
-	[a,b]=max(h);
-
-	h_LOS=h(b:end);
-
-
-	% for decim = 5
-	decim = snr_i+5;
-	if decim > 9
-		decim=decim+2;
-	end
     
-	N_p = 1001;         % number of measured frequency points
+    h = squeeze(CIR_mat(a,b,1:end-1)); % FUNGUJE
+    [a,b]=max(h);
+    
+    h_LOS=h(b:end);
+    
+    % for decim = 5
+    decim = i_snr+5;
+    if decim > 9
+        decim=decim+2;
+    end
+    
+    N_p = 1001;         % number of measured frequency points
     T_r = 1/10e9;       % time resolution given by BW
     dist_res = 1*3e8*T_r;               % distance resolution
     dist_vec = 0:dist_res:dist_res*(N_p-1); % distance vector
@@ -116,15 +114,15 @@ elseif strcmp(wifi_params.channel.type,'fad') % fading
     
     h_length=length(h_LOS);
     
-	% decim = 20;
+    % decim = 20;
     iii=1;
     for ii=1:decim:h_length-decim
         h_reduced(iii) = 1/decim*sum(h_LOS(ii:ii+decim));
         iii=iii+1;
     end
-
+    
     delay_vec_reduced = delay_vec(1:length(h_reduced));
-
+    
     h_reduced=h_reduced.*1/max(abs(h_reduced));
     
     %% RMS delay spread
@@ -132,15 +130,15 @@ elseif strcmp(wifi_params.channel.type,'fad') % fading
     % for i=1:length(h_reduced)
     %     rms_delay_1(i) = (delay_vec_reduced(i)-mean_delay).^2  .*  abs(h_reduced(i)).^2;
     % end
-%     clc
+    %     clc
     % mean_delay;
     %     rms_delay = sqrt(sum(rms_delay_1)/sum(abs(h_reduced).^2));
     % rms_delay_vec(decim) = sqrt(sum(rms_delay_1)/sum(abs(h_reduced).^2));
-     
-	h_length=length(h_reduced);
-     
-	H_reduced = fft([h_reduced, zeros(1, n_fft-h_length-n_gi)]);      
-	H2_reduced = fft([h_reduced, zeros(1, n_fft-h_length)]);
+    
+    h_length=length(h_reduced);
+    
+    H_reduced = fft([h_reduced, zeros(1, n_fft-h_length-n_gi)]);
+    H2_reduced = fft([h_reduced, zeros(1, n_fft-h_length)]);
     
     Lch = [];
     Ntap = [];
@@ -149,11 +147,11 @@ elseif strcmp(wifi_params.channel.type,'fad') % fading
     powerlin = [];
     delay = 0;
     H2 = H;
-        
+    
     chanMod.H = H_reduced; % only block fading
     chanMod.H2 = H2_reduced;
     chanMod.h = h_reduced;
-    chanMod.rms_delay = rms_delay_vec(decim);
+%     chanMod.rms_delay = rms_delay_vec(decim);
     chanMod.normh = normalize_factor_h;
     chanMod.h_length = h_length;
     chanMod.nTX = 1;
@@ -166,11 +164,9 @@ elseif strcmp(wifi_params.channel.type,'fad') % fading
     chanMod.genie.powlin_for_h_est = abs(h_reduced);
     chanMod.genie.H2 = H2;
     
-    cd ..
-
-	else
-		error('Unsupported channel type (see channel.m)');
-	
-	end
+else
+    error('Unsupported channel type (see channel.m)');
+    
+end
 
 end

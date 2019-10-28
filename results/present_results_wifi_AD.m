@@ -1,6 +1,9 @@
 %% present_results_wifi_AD
-% Script presents a simulated performance results of IEEE 802.11ad
+% Script presents the simulated performance results of IEEE 802.11ad in
+% AWGN channel
+% 
 % Author: Jiri Milos, DREL FEEC BUT, 2019
+% 
 clearvars
 close all
 clc

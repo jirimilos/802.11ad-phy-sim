@@ -1,16 +1,13 @@
 %% Performance Analysis of IEEE 802.11 WLAN Technologies
 % main simulation batch file; modifications are possible
 %
-% Authors:	Jiri Milos and Ladislav Polak, DREL FEEC BUT, 2018 and 2019
+% Authors:	Jiri Milos, Jiri Blumenstein and Ladislav Polak, DREL FEEC BUT, 2018--2019
 %
 
 close all
 clearvars;
 clear global
 clc
-
-% cd('D:\ownCloud\_Projekty\COST_FEWERCON2\_NORCAS\WIFI sim JB posledni release')
-% addpath('D:\ownCloud\_Projekty\COST_FEWERCON2\_NORCAS\WIFI sim JB posledni release')
 
 global DEBUG_MODE;
 DEBUG_MODE = false;
@@ -29,14 +26,14 @@ coding_type = 'LDPC'; % 'LDPC' encoding is mandatory for SC mode
 
 decision_type = 'LLR'; %'HD' - Hard decision values; 'LLR' - Log-likelihood ratio(LLR);
 
-LENGTH = 500; % user data octet length (1--262144)
+LENGTH = 100; % user data octet length (1--262144)
 
 MCSvec = 'all'; %[12.2:0.1:12.6]; % individual MCS types or string 'all'
-MCSvec = 8;
-channelType = 'fad_meas'; % 'awgn' , 'fad' or 'fad_meas'
+MCSvec = 1;
+channelType = 'awgn'; % 'awgn', 'fad' or 'fad_meas'
 SNR = -10:1:15;
 
-N_frames = 5; % number of frames within inner loop (for each SNR value)
+N_frames = 20; % number of frames within inner loop (for each SNR value)
 n_users = [1 1]; % [AP STA] tx always set to 1
 
 % necessary MCS definition and MCS vector indices definition

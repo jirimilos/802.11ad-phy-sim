@@ -18,8 +18,8 @@ N_blks = ceil((N_cw*L_ldpc)/MCS.N_cbpb);
 N_blk_pad = (N_blks*MCS.N_cbpb)-(N_cw*L_ldpc);
 % LDPC decoder definition
 
-% hDec = comm.LDPCDecoder(wifi_params.coding.UsedLDPC_matrix,'IterationTerminationCondition','Parity check satisfied');
-hDec = comm.gpu.LDPCDecoder(wifi_params.coding.UsedLDPC_matrix,'IterationTerminationCondition','Parity check satisfied');
+hDec = comm.LDPCDecoder(wifi_params.coding.UsedLDPC_matrix,'IterationTerminationCondition','Parity check satisfied');
+% hDec = comm.gpu.LDPCDecoder(wifi_params.coding.UsedLDPC_matrix,'IterationTerminationCondition','Parity check satisfied');
 
 % Modulation mapping
 modNorm = wifi_params.modulation(log2(MCS.M)).hMod_factor;
