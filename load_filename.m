@@ -1,7 +1,7 @@
 function filename = load_filename(SNR, N, i_mcs, wifi_params, wifi_standard, ChannelBandwidth, coding_type, LENGTH, GuardInterval, decision_type)
 % Code to generate the output filename
 %
-% Author:	Jiri Milos, DREL FEEC BUT, 2018
+% Author:	Jiri Milos, DREL FEEC BUT, 2018--2019
 %
 the_date = clock;
 

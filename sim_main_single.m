@@ -16,7 +16,6 @@ for i_snr = 1:length(SNR) % outer loop - SNR loop
         
         %% Channel model, noise and impairments
         channelObj = channel(wifi_params, txObj.nTXant, rxObj.nRXant, i_snr);
-        %         channelObj = channel_measured_JB(wifi_params,txObj.nTXant,rxObj.nRXant);
         
         x_s_filt = zeros(1, length(txObj.output.x_s)+channelObj.h_length-1);
         x_s_filt(1,1:end) = conv(txObj.output.x_s,channelObj.h); % puvodni
@@ -25,14 +24,9 @@ for i_snr = 1:length(SNR) % outer loop - SNR loop
         
         channelObj.SNR = SNR(i_snr);
         
-        % adding noise
-        %         s = RandStream('mt19937ar','Seed',1);
-        %         RandStream.setGlobalStream(s);
-        %         rng(12345)
-        
         n = 10^(-SNR(i_snr)/20)*((randn(size(channelObj.x_h))+1j*(randn(size(channelObj.x_h))))/sqrt(2));
         v = sqrt(wifi_params.mapping.n_fft/wifi_params.mapping.n_tot) * n;
-        %
+        
         % awgn or fading channel + white noise
         channelObj.x_hn = channelObj.x_h+v;
         %% Receiver -------------------------------------------------------

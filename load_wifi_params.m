@@ -1,6 +1,6 @@
 %% Script loads WIFI parameters for simulation and compute dependent parameters
 %
-% Authors:	Jiri Milos and Ladislav Polak, DREL FEEC BUT, 2018
+% Authors:	Jiri Milos and Ladislav Polak, DREL FEEC BUT, 2018--2019
 %
 warning('off')
 

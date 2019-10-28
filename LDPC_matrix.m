@@ -1,8 +1,7 @@
 function [ UsedLDPC_matrix , Z ] = LDPC_matrix(CR, L_ldpc)
 % LDPC matrix generation
 %
-% Author:	Jiri Milos, DREL FEEC BUT, 2018
-% Updated by: Jiri Milos, DREL FEEC BUT, 2019
+% Author:	Jiri Milos, DREL FEEC BUT, 2018--2019
 %
 
 switch L_ldpc

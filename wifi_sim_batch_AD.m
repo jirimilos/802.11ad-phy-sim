@@ -3,7 +3,6 @@
 %
 % Authors:	Jiri Milos, Jiri Blumenstein and Ladislav Polak, DREL FEEC BUT, 2018--2019
 %
-
 close all
 clearvars;
 clear global
@@ -29,7 +28,7 @@ decision_type = 'LLR'; %'HD' - Hard decision values; 'LLR' - Log-likelihood rati
 LENGTH = 100; % user data octet length (1--262144)
 
 MCSvec = 'all'; %[12.2:0.1:12.6]; % individual MCS types or string 'all'
-MCSvec = 1;
+
 channelType = 'awgn'; % 'awgn', 'fad' or 'fad_meas'
 SNR = -10:1:15;
 

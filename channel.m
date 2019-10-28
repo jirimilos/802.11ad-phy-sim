@@ -1,14 +1,13 @@
 function [chanMod] = channel(wifi_params, nTX, nRX, i_snr)
 % Channel function for creating awgn or fading channel matrix
 %
-% Authors:	Jiri Milos, DREL FEEC BUT, 2018
+% Authors:	Jiri Milos, DREL FEEC BUT, 2018--2019
 %			Jiri Blumenstein, DREL FEEC BUT, 2019
 %
 
 n_fft = wifi_params.mapping.n_fft;
 n_gi = wifi_params.mapping.N_GI;
-% n_sf = wifi_params.mapping.n_sf;
-% n_sf = wifi_params.coexistence.N_available_symbols;
+
 Fs = wifi_params.Fs;
 H = zeros(n_fft,1,nTX,nRX);
 
@@ -89,10 +88,7 @@ elseif strcmp(wifi_params.channel.type,'fad_meas') % fading - measured channel
     load(['CIR.mat']);
 %     load(['CIR2.mat']);
     velikost=size(CIR_mat);
-    
-    a=randi(velikost(1));
-    b=randi(velikost(2));
-    
+        
     h = squeeze(CIR_mat(a,b,1:end-1)); % FUNGUJE
     [a,b]=max(h);
     
@@ -151,7 +147,6 @@ elseif strcmp(wifi_params.channel.type,'fad_meas') % fading - measured channel
     chanMod.H = H_reduced; % only block fading
     chanMod.H2 = H2_reduced;
     chanMod.h = h_reduced;
-%     chanMod.rms_delay = rms_delay_vec(decim);
     chanMod.normh = normalize_factor_h;
     chanMod.h_length = h_length;
     chanMod.nTX = 1;

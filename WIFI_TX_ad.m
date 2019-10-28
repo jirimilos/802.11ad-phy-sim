@@ -26,8 +26,6 @@ n_fft = wifi_params.mapping.n_fft; % chips
 n_tot = wifi_params.mapping.n_tot; % chips
 n_gi = n_fft-n_tot; % chips
 
-
-
 %% GENERATE PSDU INFORMATION
 if wifi_params.general.sendAllZeros == true
     PSDU_tx = zeros(LENGTH*8,1);
@@ -40,7 +38,6 @@ end
 padding_zeros = zeros(wifi_params.coding.N_Data_pad,1);
 PSDU_tx_padded = [PSDU_tx; padding_zeros];
 
-% disp(PSDU_tx_padded(1:10))
 % both should be scrambled, padding zeros with continuous scrambling word, see page 2474
 %% SCRAMBLING
 scr_seed = wifi_params.scrambling.scr_seed;
@@ -179,7 +176,7 @@ outputBlocks = reshape(modulatedDataSymbolsAndGuard.',[],1).';
 outputBlocks = [outputBlocks, Ga64_rotated];
 
 % NOTE:
-% warning('Only data blocks are considered yet (see WIFI_TX_ad.m, line 161)');
+% warning('Only data blocks are considered yet (see WIFI_TX_ad.m)');
 
 %% Process other frame fields and concatenate to FRAME
 % auxiliary Golay sequences
@@ -306,60 +303,11 @@ modulatedBTFSymbol_rotated = BTF; % Header.*exp(1j*pi*modulated_Header_symbol_in
 % OFDM --------------------------------------------------------------------
 % windowing / only in OFDM (No windowing in CEF and STF)
 % x_s = zeros(1, sum(wifi_params.framing.ChipLengths));
-ff = 3;
-% switch ff
-%     case 1
-%         x_s = [...
-%             10*ones(size(modulatedSTFSymbol_rotated)),...
-%             10*ones(size(modulatedCEFSymbol_rotated)),...
-%             10*ones(size(modulatedHeaderSymbol_rotated_withGI12)),...
-%             outputBlocks,...
-%             modulatedBTFSymbol_rotated];
-%     case 2
-%         x_s = [...
-%             modulatedSTFSymbol_rotated,...
-%             modulatedCEFSymbol_rotated,...
-%             modulatedHeaderSymbol_rotated_withGI12,...
-%             outputBlocks,...
-%             modulatedBTFSymbol_rotated];
-%     case 3
 x_s(wifi_params.framing.ChipMap{1}) = 1*modulatedSTFSymbol_rotated;
 x_s(wifi_params.framing.ChipMap{2}) = 1*modulatedCEFSymbol_rotated;
 x_s(wifi_params.framing.ChipMap{3}) = 1*modulatedHeaderSymbol_rotated_withGI12;
 x_s(wifi_params.framing.ChipMap{4}) = outputBlocks;
 x_s(wifi_params.framing.ChipMap{5}) = 0*modulatedBTFSymbol_rotated;
-%     case 10
-%         x_s(wifi_params.framing.ChipMap{1}) = 10*modulatedSTFSymbol_rotated;
-%         x_s(wifi_params.framing.ChipMap{2}) = 100*modulatedCEFSymbol_rotated;
-%         x_s(wifi_params.framing.ChipMap{3}) = 1000*modulatedHeaderSymbol_rotated_withGI12;
-%         x_s(wifi_params.framing.ChipMap{4}) = outputBlocks;
-%         x_s(wifi_params.framing.ChipMap{5}) = modulatedBTFSymbol_rotated;
-%     case 11
-%         x_s(wifi_params.framing.ChipMap{1}) = 10*ones(size(modulatedSTFSymbol_rotated));
-%         x_s(wifi_params.framing.ChipMap{2}) = 100*ones(size(modulatedCEFSymbol_rotated));
-%         x_s(wifi_params.framing.ChipMap{3}) = 1000*ones(size(modulatedHeaderSymbol_rotated_withGI12));
-%         x_s(wifi_params.framing.ChipMap{4}) = 10000*ones(size(outputBlocks));
-%         x_s(wifi_params.framing.ChipMap{5}) = 100000*ones(size(modulatedBTFSymbol_rotated));
-% end
-% scatterplot(outputBlocks)
-%
-% figure;
-% subplot(311),
-% stairs(real(outputBlocks)), grid on
-% xticks([0 64 448+64 448+128 448+448+128])
-% subplot(312),
-% stairs(imag(outputBlocks)), grid on
-% xticks([0 64 448+64 448+128 448+448+128])
-% subplot(313)
-% korelace = xcorr(outputBlocks, Ga64_rotated);
-% stem(korelace)
-%
-% [maxkor, indkor] = max(abs(korelace))
-% maximaind = find(korelace > 50)
-%
-% diff(maximaind)
-%
-% hodnoty_v_maximu = korelace(maximaind)
 
 
 %% Save outputs
@@ -381,7 +329,6 @@ txObj.output.Header = Header;
 txObj.output.HeaderCRC = HeaderCRC;
 txObj.output.BTF = BTF;
 txObj.output.x_s = x_s;
-
 
 txObj.genie.modulatedDataSymbol = modulatedDataSymbol;
 txObj.genie.modulatedDataSymbol_rotated = modulatedDataSymbol_rotated;

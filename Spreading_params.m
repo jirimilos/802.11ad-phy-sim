@@ -2,9 +2,8 @@ function Golay_Seq = Spreading_params
 %Spreading_params - function for generation of Golay sequences from
 % standard of IEEE 802.11ad-2016
 %
-% Author: Jiri Milos, 2019, DREL FEEC BUT
+% Author: Jiri Milos, DREL FEEC BUT, 2019
 %
-% =========================================================================
 
 Ga_128 = [...
     +1 +1 -1 -1 -1 -1 -1 -1 -1 +1 -1 +1 +1 -1 -1 +1 +1 +1 -1 -1 +1 +1 +1 +1 -1 +1 -1 +1 -1 +1 +1 -1 ...

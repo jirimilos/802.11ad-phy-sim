@@ -51,7 +51,7 @@ y_rx = ChanMod_output;
 % OFDM
 
 % NOTE:
-warning('Only SC mode is considered yet (see WIFI_RX_ad.m, line 45)');
+warning('Only SC mode is considered yet (see WIFI_RX_ad.m)');
 
 % parsing
 y_rx_stf = y_rx(wifi_params.framing.ChipMap{1});
@@ -59,15 +59,6 @@ y_rx_cef = y_rx(wifi_params.framing.ChipMap{2});
 y_rx_header = y_rx(wifi_params.framing.ChipMap{3});
 y_rx_data = y_rx(wifi_params.framing.ChipMap{4});
 y_rx_btf = y_rx(wifi_params.framing.ChipMap{5});
-
-
-% -------------------------- only for debug and testing --
-y_tx = txObj.output.x_s;
-y_tx_stf = y_tx(wifi_params.framing.ChipMap{1});
-y_tx_cef = y_tx(wifi_params.framing.ChipMap{2});
-y_tx_header = y_tx(wifi_params.framing.ChipMap{3});
-y_tx_data = y_tx(wifi_params.framing.ChipMap{4});
-y_tx_btf = y_tx(wifi_params.framing.ChipMap{5});
 
 %% SYNCHRONIZATION
 % using STF
@@ -107,97 +98,57 @@ else
 end
 
 %% CHANNEL EQUALIZATION
-    
-    % with LS ZF equalizer
-    if strcmp(wifi_params.general.channel,'awgn') == 1
-        est_h_padded = [channelObj.h, zeros(1, 448-length(channelObj.h))];
-        H_est = channelObj.H(1:end-n_gi);
-    else
-        est_h_padded = [[est_h(1:120),zeros(1,length(est_h)-120)], zeros(1,n_fft-n_gi-length(est_h))];
-        H_est = fft(est_h_padded);
-    end
-    
-    H_est_perf = channelObj.H;
-    
-    FDE_data_output = zeros(size(rx_modulatedDataSymbol_blocks));
-    rx_layer_x = zeros(N_blks, length(FDE_data_output(1,:)));
-    
-    demodulatorOutSSD = zeros(N_blks, log2(MCS.M)*length(FDE_data_output(1,:)));
-    for i_eq = 1:N_blks
-        % prealloc
-        demodulatorOutSSD_blk = zeros(1, log2(MCS.M)*length(FDE_data_output(1,:)));
-        %
-                
-        FDE_data_input = (rx_modulatedDataSymbol_blocks_derotated(i_eq,:));
+% with LS ZF equalizer
+if strcmp(wifi_params.general.channel,'awgn') == 1
+    est_h_padded = [channelObj.h, zeros(1, 448-length(channelObj.h))];
+    H_est = channelObj.H(1:end-n_gi);
+else
+    est_h_padded = [[est_h(1:120),zeros(1,length(est_h)-120)], zeros(1,n_fft-n_gi-length(est_h))];
+    H_est = fft(est_h_padded);
+end
 
-        for jj = 1:length(FDE_data_input)
+H_est_perf = channelObj.H;
 
-            rx_user_sym_tmp = fft(FDE_data_input(jj));
-            H_est_tmp = H_est(jj);
-            
-            rx_layer_x(i_eq, jj) = ifft((H_est_tmp.^(-1)).*rx_user_sym_tmp); % ZF1 %% toto je posledni funkcni verze
-            %     rx_layer_x(i_eq, jj) = ifft(pinv(H_est_tmp).*rx_user_sym_tmp); % ZF2
-            
-            %     rx_layer_x(i_eq, jj) =
-            %     ifft((conj(H_est_tmp)/((abs(H_est_tmp)^2)+(2*(10^(-SNR_dB/10))^2))).*rx_user_sym_tmp); % MMSE
-            %     rx_layer_x(i_eq, jj) = ifft((conj(H_est_tmp)/((abs(H_est_tmp)^2)+(2*var_n^2))).*rx_user_sym_tmp);% MMSE
-            
-            % informace pro demodulator
-            CSM = hDemod.CustomSymbolMapping;
-            if MCS.M == 2
-                bittable = (logical(de2bi(0:length(SymbolAlphabet)-1).'));
-            else
-                bittable = flipud(logical(de2bi(CSM).'));
-            end
-            %
-            [Q, R] = qr(H_est_tmp);
-            demodulatorOutSSD_blk(1, ((jj-1)*log2(MCS.M))+1:jj*log2(MCS.M)) = (LTE_softsphere(rx_layer_x(i_eq, jj), (rx_user_sym_tmp), Q, R, SymbolAlphabet, bittable, 1, log2(MCS.M))).';
-%                      demodulatorOutSSD_blk(1, ((jj-1)*log2(MCS.M))+1:jj*log2(MCS.M)) = (LTE_softsphere(rx_layer_x(i_eq, jj), ifft(rx_user_sym_tmp), Q, R, SymbolAlphabet, bittable, 1, log2(MCS.M))).'; % pozor na implementaci ifft! overit zda je to korektne nebo ne!
+FDE_data_output = zeros(size(rx_modulatedDataSymbol_blocks));
+rx_layer_x = zeros(N_blks, length(FDE_data_output(1,:)));
+
+demodulatorOutSSD = zeros(N_blks, log2(MCS.M)*length(FDE_data_output(1,:)));
+for i_eq = 1:N_blks
+    % prealloc
+    demodulatorOutSSD_blk = zeros(1, log2(MCS.M)*length(FDE_data_output(1,:)));
+    %
+    
+    FDE_data_input = (rx_modulatedDataSymbol_blocks_derotated(i_eq,:));
+    
+    for jj = 1:length(FDE_data_input)
+        
+        rx_user_sym_tmp = fft(FDE_data_input(jj));
+        H_est_tmp = H_est(jj);
+        
+        rx_layer_x(i_eq, jj) = ifft((H_est_tmp.^(-1)).*rx_user_sym_tmp); % ZF
+        
+        CSM = hDemod.CustomSymbolMapping;
+        if MCS.M == 2
+            bittable = (logical(de2bi(0:length(SymbolAlphabet)-1).'));
+        else
+            bittable = flipud(logical(de2bi(CSM).'));
         end
-        demodulatorOutSSD(i_eq,:) = demodulatorOutSSD_blk;
-        
-		
-        %%% see: http://www.ursi.org/proceedings/procGA11/ursi/C02-3.pdf % jednoducha implementace MMSE
-        
+        %
+        [Q, R] = qr(H_est_tmp);
+        demodulatorOutSSD_blk(1, ((jj-1)*log2(MCS.M))+1:jj*log2(MCS.M)) = (LTE_softsphere(rx_layer_x(i_eq, jj), (rx_user_sym_tmp), Q, R, SymbolAlphabet, bittable, 1, log2(MCS.M))).';
     end
-    
-    
-    % rx_modulatedDataSymbol_blocks_derotated_equalized = FDE_data_output;
-	rx_modulatedDataSymbol_blocks_derotated_equalized = rx_layer_x;
+    demodulatorOutSSD(i_eq,:) = demodulatorOutSSD_blk;
+    %%% see: http://www.ursi.org/proceedings/procGA11/ursi/C02-3.pdf % jednoducha implementace MMSE
+end
+
+% rx_modulatedDataSymbol_blocks_derotated_equalized = FDE_data_output;
+rx_modulatedDataSymbol_blocks_derotated_equalized = rx_layer_x;
 
 %% DATA BLOCKS DEMODULATION
-% remove pi/2 rotation - removed above (obsolete)
-% modulated_symbol_index_k = (0:numel(rx_modulatedDataSymbol_blocks)-1);
-% rx_modulatedDataSymbol_blocks_derotated = reshape(rx_modulatedDataSymbol_blocks.',1,[]).*exp(-1j*pi*modulated_symbol_index_k/2);
-
-% demodulation
-% if strcmp(wifi_params.coding.decision_type,'LLR')
-%     %     hDemod_LLR.Variance = 10^(-channelObj.SNR/10);
-%     demodulatorOut = step(hDemod_LLR, rx_modulatedDataSymbol_blocks_derotated.'/modNorm);
-%     demodulatorOut_hard = step(hDemod, rx_modulatedDataSymbol_blocks_derotated.'/modNorm);
-% else
-%     demodulatorOut = -2*step(hDemod, rx_modulatedDataSymbol_blocks_derotated.'/modNorm)+1;
-%     demodulatorOut_hard = demodulatorOut;
-% end
-% % demodulatorIn = reshape(rx_modulatedDataSymbol_blocks_derotated_equalized.', 1, []);
-% %  demodulatorOut = demodulator(demodulatorIn, MCS.M, wifi_params, SNR_dB); % testovani demodulatoru
-
-% release(hDemod_LLR)
-% hDemod_LLR.Variance = 10^(-channelObj.SNR/10);
-%  demodulatorOut = (-2*step(hDemod, demodulatorIn.'/modNorm)+1).';
-%  hDemod_LLR.Variance = 10^(-channelObj.SNR/10);
-%  demodulatorOut33 = step(hDemod_LLR, demodulatorIn.'/modNorm);
-% demodulatorOut33 = reshape(demodulatorOut44.',1,[]);
-% release(hDemod_LLR);
-
-
 demodulatorOut = reshape(-demodulatorOutSSD.',1,[]).';
 
-
 %% LDPC CHANNEL DECODING
-
 decoderIn = 10*demodulatorOut*(1/wifi_params.modulation(log2(MCS.M)).hMod_factor);
-warning('TBD')
 
 % generate scrambling sequence of data and block pad length
 scr_seed = wifi_params.scrambling.scr_seed;
@@ -293,17 +244,8 @@ switch MCS.Repetition
             if useRepeat == 1
                 decoderIn_cw_temp(1,1:L_z) = decoderIn_cw_temp(1,1:L_z)+decoderIn_cw_repeated_part;
             end
-            %             decoderIn_cw_temp_from_repetition = decoderIn_cw_temp;
-            %             decoderIn_cw_temp_from_repetition(1,1:L_z) = decoderIn_cw_repeated_part.';
-            %             subplot(311), stem(decoderIn_cw_temp), xlim([1 672])
-            % decoder
             decoderOut_cw_with_decoded_zeros = hDec.step(decoderIn_cw_temp.');
             decoderOut_cw_tmp(i_cw, :) = decoderOut_cw_with_decoded_zeros(1:L_z).';
-            %             subplot(312), stem(decoderOut_cw_tmp), xlim([1 672])
-            %             % try to decode repeated part
-            %             release(hDec)
-            %             decoderOut_cw_tmp2 = hDec.step(decoderIn_cw_temp_from_repetition.')
-            %             subplot(313), stem(decoderOut_cw_tmp2), xlim([1 672])
         end
 end
 
