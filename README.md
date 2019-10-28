@@ -2,25 +2,27 @@
 This repository contains the baseband model of the IEEE802.11ad physical layer (PHY) simulator created in MATLAB 2017b. It only supports the Single Carrier PHY (SC-PHY) specification. To run this simulator, the following MATLAB toolboxes are required: Control System Toolbox, Signal Processing Toolbox, DSP System Toolbox and Communications System Toolbox. 
 
 All m- or mex- files are made entirely by authors, excepting the Soft-sphere decoder implementation which was originally developed at Vienna University of Technology within the LTE Link Level Simulator, see: http://publik.tuwien.ac.at/files/PubDat_199104.pdf
+
+If the use of this simulator leading to a scientific publication, please, cite our work that can be found at the end of this page.
     
 ## Short description
-Main blocks of the transmitting (TX) part are the follows:
+Main blocks of the transmitter (TX) part are as follows:
 
-***Data*** Generation of a random bit streams (bits).
+***Data:*** Generation of a random bit streams (bits).
 
-***Scrambler*** It is used to break up long sequences of ones and zeros. It is defined by generator polynomial: ![](https://user-images.githubusercontent.com/55983849/67189872-4dd44100-f3ef-11e9-81b8-0ccb541a7f4e.png).
+***Scrambler:*** It is used to break up long sequences of ones and zeros. It is defined by generator polynomial: ![](https://user-images.githubusercontent.com/55983849/67189872-4dd44100-f3ef-11e9-81b8-0ccb541a7f4e.png).
 
-***LDPC encoder*** Forward error correction (FEC) scheme for SC-PHY can use 5 code rates: 1/2, 5/8, 3/4, 13/16 and 7/8.
+***LDPC encoder:*** Forward error correction (FEC) scheme for SC-PHY can use 5 code rates: 1/2, 5/8, 3/4, 13/16 and 7/8.
 
-***Bit interleaver*** For interleaving of the encoded message (on a bit level).
+***Bit interleaver:*** For interleaving of the encoded message (on a bit level).
 
-***Modulation*** ![](https://user-images.githubusercontent.com/55983849/67190065-955acd00-f3ef-11e9-8b52-6e7455de55ab.png)-shifted BPSK, QPSK, 16QAM and 64QAM constellations.
+***Modulation:*** ![](https://user-images.githubusercontent.com/55983849/67190065-955acd00-f3ef-11e9-8b52-6e7455de55ab.png)-shifted BPSK, QPSK, 16QAM and 64QAM constellations.
 
-***Symbol blocking*** The data are transmitted block-wise at 448 symbols per block.
+***Symbol blocking:*** The data are transmitted block-wise at 448 symbols per block.
 
-***Guard interval (GI)*** Another 64 symbols are inserted between the individual blocks. The GI consists of a Golay sequence, marked as Ga64, modulated with ![](https://user-images.githubusercontent.com/55983849/67190065-955acd00-f3ef-11e9-8b52-6e7455de55ab.png)-BPSK. Finally, the complete IEEE 802.11ad frame is created.
+***Guard interval (GI):*** Another 64 symbols are inserted between the individual blocks. The GI consists of a Golay sequence, marked as Ga64, modulated with ![](https://user-images.githubusercontent.com/55983849/67190065-955acd00-f3ef-11e9-8b52-6e7455de55ab.png)-BPSK. Finally, the complete IEEE 802.11ad frame is created.
 
-***Channel*** Block *Channel* allows for user to select between the following channel models:
+***Channel:*** Block *Channel* allows for user to select between the following channel models:
 - AWGN channel model (**'awgn'**),
 - fading channel model using user-defined values (**'fad'**),
 - a measured indoor 60 GHz fading channel model (**'fad_meas'**).
@@ -65,4 +67,6 @@ If you use the 802.11ad simulator, please, cite:
     month   = {Oct}
     }
 
-## About authors
+## Acknowledgement
+
+*This work was supported by the Ministry of Education, Youth and Sports (MEYS) of the Czech Republic project no. [LTC18021](https://starfos.tacr.cz/en/project/LTC18021) (FEWERCON). For research, infrastructure of the [SIX Center](http://www.six.feec.vutbr.cz/) was used.*
