@@ -42,14 +42,14 @@ The basic simulation is started by the file *'wifi_AD_sim_batch.m'*. The paramet
 - **'MCSvec'** - the MCS value(s) to simulate MCSvec, either *'all'* (corresponding to MCS defined for SC-PHY) or individual MCS value(s),
 - **'channelType'** - *'awgn'*, *'fad'* or *'fad_meas'*,
 - **'SNR'** - simualated SNR values (in dB) in channel model, within the outer loop,
-- **'N_frames'** - number of simulated frames within the inner loop (for each SNR value),
+- **'N_frames'** - number of simulated frames within the inner loop (for each SNR value).
 
 The results are stored in the *'\results'* folder as a .mat file. Each simulated MCS has its own .mat file. For the results graphical presentation you can use the file: *'\results\present_results_wifi_AD.m'*. 
 
 ![IEEE 802.11ad SC-PHY simulation results example](https://user-images.githubusercontent.com/55983849/67470120-8ec99100-f64d-11e9-9741-ad3fdc5e8a27.png)
 
 ### Measured indoor 60 GHz fading channel model only
-To use and present the measured dataset from the indoor measurement campaign held in Brno University of Technology (BUT) at the Department of Radio Electronics (DREL) employs the file show_meas_data.m stored in the folder '\measured_chanels':. You will receive several characteristics of the transmission channels in time and frequency domain, see the article on this issue mentioned above.
+To use and present the measured dataset from the indoor measurement campaign held in Brno University of Technology (BUT) at the Department of Radio Electronics (DREL) employs the file show_meas_data.m stored in the folder *'\measured_chanels'*:. You will receive several characteristics of the transmission channels in time and frequency domain, see the article on this issue mentioned above.
 
 ![Examples of time- and frequency-domain channel traces](https://user-images.githubusercontent.com/55983849/67467406-f7623f00-f648-11e9-8acd-8eacbe66e315.png)
 
