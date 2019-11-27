@@ -64,8 +64,11 @@ If you use the 802.11ad simulator, please, cite:
     year    = {2019},
     publisher = {IEEE},
     pages   = {1--4},
-    month   = {Oct}
+    month   = {Oct},
+    doi     = {10.1109/NORCHIP.2019.8906960}
     }
+  
+The paper is available via IEEE Explore at: https://ieeexplore.ieee.org/document/8906960
 
 ## Acknowledgement
 
