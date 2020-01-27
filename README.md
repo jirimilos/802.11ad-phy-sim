@@ -36,7 +36,7 @@ Main blocks of the transmitter (TX) part are as follows:
 ## Instructions for use
 
 ### IEEE 802.11ad PHY simulator
-The basic simulation is started by the file *'wifi_AD_sim_batch.m'*. The parameters that can be set are as follows:
+The basic simulation is started by the file *'wifi_sim_batch_AD.m'*. The parameters that can be set are as follows:
 - **'decision_type'** - either *'LLR'* (Log-likelihood ratio) or *'HD'* (Hard decision),
 - **'LENGTH'** - user data octet length (within the range from 1 to 262144),
 - **'MCSvec'** - the MCS value(s) to simulate MCSvec, either *'all'* (corresponding to MCS defined for SC-PHY) or individual MCS value(s),
